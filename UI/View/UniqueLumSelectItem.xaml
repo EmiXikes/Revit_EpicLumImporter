@@ -1,0 +1,42 @@
+﻿<UserControl x:Class="EpicLumImporter.UI.View.UniqueLumSelectItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:EpicLumImporter.UI.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="50" d:DesignWidth="635">
+    <UserControl.Resources>
+        <DataTemplate x:Key="RvtFamilySelectorTemplate">
+            <local:RvtFamSelectorItem/>
+        </DataTemplate>
+    </UserControl.Resources>
+    <Border BorderBrush="#FF404040" BorderThickness="0,0,0,1">
+        <StackPanel Orientation="Vertical">
+            <StackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="DWG name" Width="240" Margin="5,0,5,2" FontSize="8"/>
+                    <TextBox x:Name="DWGName" Text="{Binding dwgLumName}" 
+                             PreviewMouseDoubleClick="DWGName_PreviewMouseLeftButtonUp"
+                             MouseLeave="DWGName_MouseLeave"
+                             MouseEnter="DWGName_MouseEnter"
+                             Margin="5,0,5,2" VerticalAlignment="Center" IsReadOnly="True" Height="22" Width="240">
+                        <TextBox.ToolTip>
+                            <ToolTip>
+                            </ToolTip>
+                        </TextBox.ToolTip>
+                    </TextBox>
+                    <TextBlock x:Name="Manufacturer" Text="{Binding dwgLumManufacturer}" Margin="5,0,0,0" />
+                </StackPanel>
+                <StackPanel Orientation="Vertical" Width="380">
+                    <TextBlock Text="Revit Family" Width="400" Margin="0,0,0,2" FontSize="8"/>
+                    <ComboBox ItemTemplate="{DynamicResource RvtFamilySelectorTemplate}" Margin="0,0,30,0"
+                              ItemsSource="{Binding DataContext.RevitFamilyData, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:MainPanel}}"
+                              SelectedItem="{Binding rvtLumFamilyItem}" Height="22" Width="350"
+                              />
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+
+    </Border>
+</UserControl>
