@@ -277,6 +277,10 @@ namespace EpicLumImporter
 
             // ending
 
+
+
+
+
             System.Windows.Forms.MessageBox.Show(
                 String.Format("Lums: {0}\nUnique Lums: {1}\nInfoBlocks: {2}",
                 extData.dwgLumData.Count.ToString(), extData.dwgLumDataUnique.Count.ToString(), extData.dwgLumInfoBlocks.Count.ToString()), "Success!!");
