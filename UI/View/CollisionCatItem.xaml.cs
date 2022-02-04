@@ -1,5 +1,4 @@
-﻿using EpicLumi.UI.ViewModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,15 +16,13 @@ using System.Windows.Shapes;
 namespace EpicLumi.UI.View
 {
     /// <summary>
-    /// Interaction logic for MainPanel.xaml
+    /// Interaction logic for CollisionCatItem.xaml
     /// </summary>
-    public partial class MainPanel : UserControl
+    public partial class CollisionCatItem : UserControl
     {
-        public MainPanel()
+        public CollisionCatItem()
         {
             InitializeComponent();
-            //MainViewModel VM = new MainViewModel();
-            //this.DataContext = VM;
         }
     }
 }

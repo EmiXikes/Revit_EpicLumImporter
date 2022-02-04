@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static DEL_acadltlib_EM.FileIO;
 
-namespace EpicLumImporter
+namespace EpicLumi
 {
     public class LumImporterStructures
     {

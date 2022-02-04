@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace EpicLumImporter.UI.ViewModel
+namespace EpicLumi.UI.ViewModel
 {
     public class LumElevCorrVM : INPC
     {

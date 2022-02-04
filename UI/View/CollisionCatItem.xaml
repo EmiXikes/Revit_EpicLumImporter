@@ -1,14 +1,14 @@
-﻿<UserControl x:Class="EpicLumi.UI.View.RvtFamSelectorItem"
+﻿<UserControl x:Class="EpicLumi.UI.View.CollisionCatItem"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:EpicLumi.UI.View"
              mc:Ignorable="d" 
-             d:DesignHeight="20" d:DesignWidth="300">
-    <DockPanel >
-        <TextBlock Text="{Binding RevitFamilyManufacturer}" Width="80" VerticalAlignment="Center"/>
-        <TextBlock Text="{Binding RevitFamilyName}" VerticalAlignment="Center"/>
+             d:DesignHeight="22" d:DesignWidth="120">
+    <StackPanel Orientation="Horizontal">
+        <TextBlock Margin="3" Width="90" Text="Text" />
+        <CheckBox Margin="3"/>
 
-    </DockPanel>
+    </StackPanel>
 </UserControl>

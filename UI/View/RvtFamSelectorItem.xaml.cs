@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace EpicLumImporter.UI.View
+namespace EpicLumi.UI.View
 {
     /// <summary>
     /// Interaction logic for RvtFamSelectorItem.xaml

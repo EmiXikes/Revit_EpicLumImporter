@@ -1,7 +1,7 @@
 ﻿using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
-using EpicLumImporter.UI.ViewModel;
+using EpicLumi.UI.ViewModel;
 using FireSharp;
 using Nito.AsyncEx;
 using Nito.AsyncEx.Synchronous;
@@ -15,37 +15,14 @@ using System.Threading.Tasks;
 using System.Windows;
 using static DEL_acadltlib_EM.FileIO;
 
-namespace EpicLumImporter
+namespace EpicLumi
 {
     [Transaction(TransactionMode.Manual)]
-    public class LumImporter : HelperOps, IExternalCommand
+    public class Lumi : HelperOps, IExternalCommand
     {
         Result transResult = Result.Cancelled;
 
-        //static string pathFamilyNamesList = System.IO.Path.Combine("C:\\Epic\\Revit", "ELI_Fams.txt");
-        //static string pathLumDwgExportData = System.IO.Path.Combine("C:\\Epic\\Revit", "ELI_DwgLumData.txt");
-        //static string pathLumDwgSummaryData = System.IO.Path.Combine("C:\\Epic\\Revit", "ELI_DwgLumSummary.txt");
-        //static string pathLumInfoBlockData = System.IO.Path.Combine("C:\\Epic\\Revit", "ELI_DwgLumInfoBlcks.txt");
-        //static string pathLumOrigins = System.IO.Path.Combine("C:\\Epic\\Revit", "ELI_DwgLumOrigins.txt");
-
         double mmInFt = 304.8;
-
-        //List<LumDataItem> dwgLumData;
-        //List<UniqueLumDataItem> dwgLumDataUnique;
-        //List<LumInfoBlock> dwgLumInfoBlocks;
-        //Vector2 dwgLumInfoOrigins = new Vector2();
-
-        //private void ReloadExternalData()
-        //{
-        //    dwgLumData = new List<LumDataItem>();
-        //    dwgLumDataUnique = new List<UniqueLumDataItem>();
-        //    dwgLumInfoBlocks = new List<LumInfoBlock>();
-
-        //    dwgLumData = LoadObjFromFile<List<LumDataItem>>(pathLumDwgExportData);
-        //    dwgLumDataUnique = LoadObjFromFile<List<UniqueLumDataItem>>(pathLumDwgSummaryData);
-        //    dwgLumInfoBlocks = LoadObjFromFile<List<LumInfoBlock>>(pathLumInfoBlockData);
-        //    dwgLumInfoOrigins = LoadObjFromFile<Vector2>(pathLumOrigins);
-        //}
 
         ExternalData extData;
 
@@ -227,6 +204,8 @@ namespace EpicLumImporter
             }
             Debug.Print(str);
 
+            XYZ DeltaOrigins = GetOriginDelta(doc);
+
             double floorOffset = double.Parse(uiData.LevelOffset, System.Globalization.CultureInfo.CurrentCulture) / mmInFt;
 
             // Level
@@ -251,7 +230,7 @@ namespace EpicLumImporter
                 {
                     var revitFamName = uiData.UniLumData.FirstOrDefault(x => x.dwgLumName == item.LumModelName).rvtLumFamilyItem.RevitFamilyName;
 
-                    LumsToGenerate.Add(new GenLumItem
+                    GenLumItem Lum = new GenLumItem()
                     {
                         Level = SelectedLevel,
                         workPlane = refPlane,
@@ -260,25 +239,38 @@ namespace EpicLumImporter
                         name = item.LumModelName,
                         familySymbol = (FamilySymbol)rvtLightingFixtures.FirstOrDefault(F => F.Name == revitFamName),
                         ImportedInfo = new LumInfoBlock() { attr_ELGRUPA = item.attr_ELGRUPA }
-                    }); ;
+                    };
+
+                    FamilyInstance instance = GenerateLumInstance(doc, DeltaOrigins, Lum);
+
+                    var elConnectionParam = instance.get_Parameter(new System.Guid("41a9849c-f9a0-48fd-8b79-9a51cb222a8e")).Set(Lum.ImportedInfo.attr_ELGRUPA);
+
+
+                    //LumsToGenerate.Add(new GenLumItem
+                    //{
+                    //    Level = SelectedLevel,
+                    //    workPlane = refPlane,
+                    //    location = new XYZ(item.Location.X, item.Location.Y, item.Location.Z),
+                    //    Rotation = item.Rotation,
+                    //    name = item.LumModelName,
+                    //    familySymbol = (FamilySymbol)rvtLightingFixtures.FirstOrDefault(F => F.Name == revitFamName),
+                    //    ImportedInfo = new LumInfoBlock() { attr_ELGRUPA = item.attr_ELGRUPA }
+                    //}); ;
                 }
             }
 
             // Creating new family instances
 
-            XYZ DeltaOrigins = GetOriginDelta(doc);
+          
 
-            foreach (var Lum in LumsToGenerate)
-            {
-                FamilyInstance instance = GenerateLumInstance(doc, DeltaOrigins, Lum);
+            //foreach (var Lum in LumsToGenerate)
+            //{
+            //    FamilyInstance instance = GenerateLumInstance(doc, DeltaOrigins, Lum);
 
-                var elConnectionParam = instance.get_Parameter(new System.Guid("41a9849c-f9a0-48fd-8b79-9a51cb222a8e")).Set(Lum.ImportedInfo.attr_ELGRUPA);
-            }
+            //    var elConnectionParam = instance.get_Parameter(new System.Guid("41a9849c-f9a0-48fd-8b79-9a51cb222a8e")).Set(Lum.ImportedInfo.attr_ELGRUPA);
+            //}
 
             // ending
-
-
-
 
 
             System.Windows.Forms.MessageBox.Show(

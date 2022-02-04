@@ -7,8 +7,8 @@
     <ProjectGuid>{E451A797-68BE-42B3-B834-DF0A55798280}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EpicLumImporter</RootNamespace>
-    <AssemblyName>EpicLumImporter</AssemblyName>
+    <RootNamespace>EpicLumi</RootNamespace>
+    <AssemblyName>EpicLumi</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -178,24 +178,38 @@
   <ItemGroup>
     <Compile Include="FireBase.cs" />
     <Compile Include="HelperOps.cs" />
-    <Compile Include="LumElevFix.cs" />
-    <Compile Include="LumiAnnotate.cs" />
-    <Compile Include="LumiAnnotationUpdate.cs" />
-    <Compile Include="LumImporter.cs" />
+    <Compile Include="LumiElevationChange.cs" />
+    <Compile Include="LumiSnap.cs" />
+    <Compile Include="LumiSnapInfo.cs" />
+    <Compile Include="LumiSnapSettings.cs" />
+    <Compile Include="LumiTag.cs" />
+    <Compile Include="LumiTagUpdate.cs" />
+    <Compile Include="Lumi.cs" />
     <Compile Include="LumImporterStructures.cs" />
-    <Compile Include="LumImportInfoBlocks.cs" />
+    <Compile Include="LumiInfoImport.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="UI\ViewModel\ChangeElevationVM.cs" />
     <Compile Include="UI\ViewModel\INPC.cs" />
     <Compile Include="UI\ViewModel\LumElevCorrVM.cs" />
+    <Compile Include="UI\ViewModel\LumiSnapSettingsVM.cs" />
     <Compile Include="UI\ViewModel\MainViewModel.cs" />
     <Compile Include="UI\ViewModel\RCommand.cs" />
+    <Compile Include="UI\View\ChangeElevationUI.xaml.cs">
+      <DependentUpon>ChangeElevationUI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\View\CollisionCatItem.xaml.cs">
+      <DependentUpon>CollisionCatItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\View\LumElevCorrUI.xaml.cs">
       <DependentUpon>LumElevCorrUI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\View\LumiSnapSettingsUI.xaml.cs">
+      <DependentUpon>LumiSnapSettingsUI.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\View\MainPanel.xaml.cs">
       <DependentUpon>MainPanel.xaml</DependentUpon>
@@ -216,7 +230,19 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="UI\View\ChangeElevationUI.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\View\CollisionCatItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\View\LumElevCorrUI.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\View\LumiSnapSettingsUI.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

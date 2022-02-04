@@ -7,10 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EpicLumImporter
+namespace EpicLumi
 {
     [Transaction(TransactionMode.Manual)]
-    public class LumImportInfoBlocks : HelperOps, IExternalCommand
+    public class LumiInfoImport : HelperOps, IExternalCommand
     {
         ExternalData extData;
         double mmInFt = 304.8;
@@ -32,6 +32,7 @@ namespace EpicLumImporter
                 .Where(x => IsElementVisibleInView(doc.ActiveView, x)).ToList();
 
             XYZ DeltaOrigins = GetOriginDelta(doc);
+            XYZ DeltaOriginsMM = DeltaOrigins * mmInFt;
 
             List<LumInfoRect> rectList = new List<LumInfoRect>();
 
@@ -41,10 +42,10 @@ namespace EpicLumImporter
                 LumInfoRect LumInfoRect = new LumInfoRect()
                 {
                     Rect = new System.Drawing.Rectangle(
-                    (int)(item.PointA.X + DeltaOrigins.X * mmInFt),
-                    (int)(item.PointA.Y + DeltaOrigins.X * mmInFt),
-                    Math.Abs((int)(item.PointA.X - (int)item.PointB.X + DeltaOrigins.X * mmInFt)),
-                    Math.Abs((int)(item.PointA.Y - (int)item.PointB.Y + DeltaOrigins.X * mmInFt))
+                    (int)(item.PointA.X + (int)DeltaOriginsMM.X),
+                    (int)(item.PointA.Y + (int)DeltaOriginsMM.Y),
+                    Math.Abs((int)(item.PointA.X - (int)item.PointB.X)),
+                    Math.Abs((int)(item.PointA.Y - (int)item.PointB.Y))
                     ),
                     attr_ELGRUPA = item.attr_ELGRUPA,
                     attr_INFO1 = item.attr_INFO1,
@@ -52,22 +53,7 @@ namespace EpicLumImporter
                     attr_INFO3 = item.attr_INFO3,
                 };
 
-                //LumInfoRect LumInfoRect2 = new LumInfoRect()
-                //{
-                //    Rect = new System.Drawing.Rectangle(
-                //        (int)item.PointA.X,
-                //        (int)item.PointA.Y,
-                //        Math.Abs((int)item.PointA.X - (int)item.PointB.X),
-                //        Math.Abs((int)item.PointA.Y - (int)item.PointB.Y)
-                //        ),
-                //    attr_ELGRUPA = item.attr_ELGRUPA,
-                //    attr_INFO1 = item.attr_INFO1,
-                //    attr_INFO2 = item.attr_INFO2,
-                //    attr_INFO3 = item.attr_INFO3,
-                //};
-
                 rectList.Add(LumInfoRect);
-
             }
                         
             rectList.OrderBy(x => x.Rect.Width * x.Rect.Height).Reverse();
@@ -78,46 +64,26 @@ namespace EpicLumImporter
             // check if luminarie corrdinates are inside of the rectangles
             foreach (var rect in rectList)
             {
+
                 foreach (var Lum in lumInstancesVisibleInView)
                 {
                     XYZ lumPoint = (Lum.Location as LocationPoint).Point;
 
                     System.Drawing.Point blckCoords = 
                         new System.Drawing.Point(
-                            (int)((lumPoint.X + DeltaOrigins.X) * mmInFt),
-                            (int)((lumPoint.Y + DeltaOrigins.Y) * mmInFt)
+                            (int)((lumPoint.X) * mmInFt),
+                            (int)((lumPoint.Y) * mmInFt)
                             );
-
 
                     if (rect.Rect.Contains(blckCoords))
                     {
                         Lum.get_Parameter(new System.Guid("41a9849c-f9a0-48fd-8b79-9a51cb222a8e")).Set(rect.attr_ELGRUPA);
-
                     }
                 }
-
             }
-
 
             // update tags
-            string ProxyAnnoTagName = "EpicAnnotationProxy";
-
-            var epicAnotationInstances = new FilteredElementCollector(doc)
-                .OfCategory(BuiltInCategory.OST_LightingFixtures)
-                .OfClass(typeof(FamilyInstance))
-                .Cast<FamilyInstance>().Where(x => x.Name == ProxyAnnoTagName).ToList();
-
-            foreach (var fi in epicAnotationInstances)
-            {
-                string epicAnnotationTxt = GetConnectionAnnoProxyData(doc, fi);
-
-                var proxyAnnoParam = fi.get_Parameter(new System.Guid("4ad138e7-de2f-430e-96bc-f3387e6186ca"));
-                if (proxyAnnoParam != null)
-                {
-                    proxyAnnoParam.Set(epicAnnotationTxt);
-                }
-            }
-
+            RefreshLumiTags(doc);
 
             trans.Commit();
             return Result.Succeeded;

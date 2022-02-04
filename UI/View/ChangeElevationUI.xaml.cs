@@ -16,13 +16,27 @@ using System.Windows.Shapes;
 namespace EpicLumi.UI.View
 {
     /// <summary>
-    /// Interaction logic for LumElevCorrUI.xaml
+    /// Interaction logic for ChangeElevationUI.xaml
     /// </summary>
-    public partial class LumElevCorrUI : UserControl
+    public partial class ChangeElevationUI : UserControl
     {
-        public LumElevCorrUI()
+        public ChangeElevationUI()
         {
             InitializeComponent();
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            tBox.Focus();
+            tBox.SelectAll();
+        }
+
+        private void tBox_KeyUp_1(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                okBtn.Command.Execute(null);
+            }
         }
     }
 }

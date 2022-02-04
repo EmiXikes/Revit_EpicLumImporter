@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Input;
 using Autodesk.Revit.UI;
 
-namespace EpicLumImporter.UI.ViewModel
+namespace EpicLumi.UI.ViewModel
 {
     public class MainViewModel : INPC
     {

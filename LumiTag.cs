@@ -9,10 +9,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EpicLumImporter
+namespace EpicLumi
 {
     [Transaction(TransactionMode.Manual)]
-    public class LumiAnnotate : HelperOps, IExternalCommand
+    public class LumiTag : HelperOps, IExternalCommand
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
@@ -21,8 +21,8 @@ namespace EpicLumImporter
             Document doc = uiapp.ActiveUIDocument.Document;
             View activeView = doc.ActiveView;
 
-            string ProxyFamName = "EpicAnnotationProxy";
-            string ProxyAnnoTagName = "LumAnnotationProxy";
+            string ProxyFamName = "EpicLumiProxy";
+            string ProxyTagName = "EpicLumiProxyTag";
 
             #region Collectors
 
@@ -32,7 +32,7 @@ namespace EpicLumImporter
             FilteredElementCollector lightTag = new FilteredElementCollector(doc);
             List<Element> rvtLightingTags = lightTag.OfClass(typeof(FamilySymbol)).OfCategory(BuiltInCategory.OST_LightingFixtureTags).ToList();
 
-            var ProxyAnnoTag = rvtLightingTags.FirstOrDefault(t => t.Name == ProxyAnnoTagName);
+            var ProxyAnnoTag = rvtLightingTags.FirstOrDefault(t => t.Name == ProxyTagName);
 
             ElementId ProxyAnnoTagId = ProxyAnnoTag.Id;
 

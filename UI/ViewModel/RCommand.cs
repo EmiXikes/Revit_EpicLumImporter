@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace EpicLumImporter.UI.ViewModel
+namespace EpicLumi.UI.ViewModel
 {
     public class RCommand : ICommand
     {
