@@ -179,6 +179,7 @@
     <Compile Include="FireBase.cs" />
     <Compile Include="HelperOps.cs" />
     <Compile Include="LumiElevationChange.cs" />
+    <Compile Include="LumiFlip.cs" />
     <Compile Include="LumiSnap.cs" />
     <Compile Include="LumiSnapInfo.cs" />
     <Compile Include="LumiSnapSettings.cs" />

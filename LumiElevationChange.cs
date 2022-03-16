@@ -44,7 +44,7 @@ namespace EpicLumi
             // UI
             Window uiWin = new Window();
             uiWin.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-            uiWin.Width = 100; uiWin.Height = 100;
+            uiWin.Width = 100; uiWin.Height = 145;
             uiWin.ResizeMode = ResizeMode.NoResize;
             uiWin.Title = "Change Lum Elevation";
 
