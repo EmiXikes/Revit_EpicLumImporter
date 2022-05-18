@@ -91,11 +91,13 @@
     <Reference Include="PresentationFramework">
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
-    <Reference Include="RevitAPI">
-      <HintPath>..\..\..\Refs\Revit\2020\RevitAPI.dll</HintPath>
+    <Reference Include="RevitAPI, Version=20.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Refs\Revit\2022\RevitAPI.dll</HintPath>
     </Reference>
-    <Reference Include="RevitAPIUI">
-      <HintPath>..\..\..\Refs\Revit\2020\RevitAPIUI.dll</HintPath>
+    <Reference Include="RevitAPIUI, Version=20.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Refs\Revit\2022\RevitAPIUI.dll</HintPath>
     </Reference>
     <Reference Include="System">
       <EmbedInteropTypes>False</EmbedInteropTypes>

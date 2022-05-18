@@ -80,10 +80,10 @@ namespace EpicLumi
                 schemaBuilder.AddSimpleField("ViewName", typeof(string));
 
                 myField = schemaBuilder.AddSimpleField("DistanceRev", typeof(double));
-                myField.SetUnitType(UnitType.UT_Length);
+                myField.SetSpec(SpecTypeId.Length);
 
                 myField = schemaBuilder.AddSimpleField("DistanceFwd", typeof(double));
-                myField.SetUnitType(UnitType.UT_Length);
+                myField.SetSpec(SpecTypeId.Length);
 
                 myField = schemaBuilder.AddSimpleField("LinkId", typeof(ElementId));
 
@@ -128,8 +128,8 @@ namespace EpicLumi
                 LumiSnapSettingsData settings = new LumiSnapSettingsData();
 
                 settings.ViewName = settingsEntity.Get<string>("ViewName");
-                settings.DistanceRev = settingsEntity.Get<double>("DistanceRev", DisplayUnitType.DUT_MILLIMETERS);
-                settings.DistanceFwd = settingsEntity.Get<double>("DistanceFwd", DisplayUnitType.DUT_MILLIMETERS);
+                settings.DistanceRev = settingsEntity.Get<double>("DistanceRev", UnitTypeId.Millimeters);
+                settings.DistanceFwd = settingsEntity.Get<double>("DistanceFwd", UnitTypeId.Millimeters);
                 settings.LinkId = settingsEntity.Get<ElementId>("LinkId");
 
                 return settings;
@@ -149,8 +149,8 @@ namespace EpicLumi
                 Entity settingsEntity = new Entity(LumiSnapSettingsSchema.GetSchema());
 
                 settingsEntity.Set("ViewName", settings.ViewName);
-                settingsEntity.Set("DistanceRev", settings.DistanceRev, DisplayUnitType.DUT_MILLIMETERS);
-                settingsEntity.Set("DistanceFwd", settings.DistanceFwd, DisplayUnitType.DUT_MILLIMETERS);
+                settingsEntity.Set("DistanceRev", settings.DistanceRev, UnitTypeId.Millimeters);
+                settingsEntity.Set("DistanceFwd", settings.DistanceFwd, UnitTypeId.Millimeters);
                 settingsEntity.Set("LinkId", settings.LinkId);
 
                 //Identify settings data storage
