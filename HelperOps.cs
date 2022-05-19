@@ -247,6 +247,11 @@ namespace EpicLumi
                 return "";
             }
 
+            if (!retrievedEntity.IsValidObject)
+            {
+                return "";
+            }
+
             IList<ElementId> assignedLumIds = retrievedEntity.Get<IList<ElementId>>("LumiIds");
 
             List<string> selectionELConnections = new List<string>();
