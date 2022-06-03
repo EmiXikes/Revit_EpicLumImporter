@@ -10,7 +10,7 @@
              >
     <StackPanel FocusManager.FocusedElement="{Binding ElementName=tBox}">
         <CheckBox Content="Auto Level" Margin="5,5,5,0" IsChecked="{Binding UseAutoLevel}"/>
-        <ComboBox Name="LvlSelector" Margin="5,5,5,0" ItemsSource="{Binding ElevLevels}"/>
+        <ComboBox Name="LvlSelector" Margin="5,5,5,0" ItemsSource="{Binding ElevLevels}" SelectedValue="{Binding UserSelectedLevel}" IsEnabled="{Binding LevelSelectionEnabled}" />
         <TextBox Name="tBox" Margin="5" Text="{Binding ElevationAtLevel}" Focusable="True" KeyUp="tBox_KeyUp_1" >
 
         </TextBox>

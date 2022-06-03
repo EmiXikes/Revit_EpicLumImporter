@@ -23,7 +23,8 @@ namespace EpicLumi
             Autodesk.Revit.ApplicationServices.Application app = uiapp.Application;
             Document doc = uidoc.Document;
 
-
+            FilteredElementCollector levelCollector = new FilteredElementCollector(doc);
+            List<Element> rvtLevels = levelCollector.OfClass(typeof(Level)).ToElements().ToList();
 
             Transaction trans = new Transaction(doc);
             trans.Start("Change Lum Elevation");
@@ -50,9 +51,16 @@ namespace EpicLumi
 
             ChangeElevationVM uiData = new ChangeElevationVM()
             {
-                ElevationAtLevel = defaultElev
+                ElevationAtLevel = Math.Round(defaultElev, 2),
+                UseAutoLevel = true,
+                ElevLevels = new System.Collections.ObjectModel.ObservableCollection<string>()
             };
             uiData.OnRequestClose += (s, e) => uiWin.Close();
+
+            foreach (string item in (from L in rvtLevels select L.Name).ToList())
+            {
+                uiData.ElevLevels.Add(item);
+            }
 
             //uiWin.Activated += winActivated;
 
@@ -61,24 +69,40 @@ namespace EpicLumi
             uiWin.ShowDialog();
 
             double newElevationAtLevel = uiData.ElevationAtLevel;
+            bool UseAutoLevel = uiData.UseAutoLevel;
+            string UserSelectedLevelName = uiData.UserSelectedLevel;
 
             foreach (ElementId selectedElementId in selection)
             {
                 Element selectedElement = doc.GetElement(selectedElementId);
-
                 XYZ initialPoint = (selectedElement.Location as LocationPoint).Point;
-                Level SelectedLevel = GetCorrespondingLevel(doc, selectedElement);
+                XYZ newPoint = initialPoint;
+                Level UserSelectedLevel = null;
 
+                if (UseAutoLevel)
+                {
+                    Level SelectedLevel = GetCorrespondingLevel(doc, selectedElement);
+                    
+                    newPoint = new XYZ(
+                        initialPoint.X,
+                        initialPoint.Y,
+                        SelectedLevel.Elevation + (newElevationAtLevel / mmInFt)
+                        );
+                }
+                else
+                {
+                    Level SelectedLevel = GetCorrespondingLevel(doc, selectedElement);
+                    UserSelectedLevel = (Level)rvtLevels.FirstOrDefault(L => L.Name == UserSelectedLevelName);
+                    SelectedLevel = UserSelectedLevel;
 
+                    newPoint = new XYZ(
+                        initialPoint.X,
+                        initialPoint.Y,
+                        SelectedLevel.Elevation + (newElevationAtLevel / mmInFt)
+                        );
+                }
 
-                XYZ newPoint = new XYZ(
-                    initialPoint.X,
-                    initialPoint.Y,
-                    SelectedLevel.Elevation + (newElevationAtLevel / mmInFt)
-                    );
-
-
-                RecreateAtNewWorkplaneElevation(doc, selectedElementId, newPoint);
+                RecreateAtNewWorkplaneElevation(doc, selectedElementId, newPoint, UserSelectedLevel);
             }
 
 

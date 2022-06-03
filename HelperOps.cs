@@ -482,7 +482,7 @@ namespace EpicLumi
 
             }
         }
-        public void RecreateAtNewWorkplaneElevation(Document doc, ElementId selectedElementId, XYZ snapPoint)
+        public void RecreateAtNewWorkplaneElevation(Document doc, ElementId selectedElementId, XYZ newPoint, Level UserSelectedLevel = null)
         {
             double mmInFt = 304.8;
 
@@ -496,19 +496,27 @@ namespace EpicLumi
             Debug.Print(String.Format("Rotation Angle: {0}",
                                         elmAngle3 * 180 / Math.PI
                                         ));
-
-            Level SelectedLevel = GetCorrespondingLevel(doc, selectedElement);
+            double RefPlaneElevation = newPoint.Z;
+            Level SelectedLevel;
+            if (UserSelectedLevel != null)
+            {
+                SelectedLevel = UserSelectedLevel;
+            }
+            else
+            {
+                SelectedLevel = GetCorrespondingLevel(doc, selectedElement);
+            }
 
             // Create new Reference plane
 
-            string newElevationAtLvl = String.Format("{0}", Math.Round((snapPoint.Z - SelectedLevel.Elevation) * mmInFt));
+            string newElevationAtLvl = String.Format("{0}", Math.Round((RefPlaneElevation - SelectedLevel.Elevation) * mmInFt));
             string newRefPlaneName = String.Format(
                 "EpicLum_##{0}##_EL{1}",
                 SelectedLevel.Name,
                 newElevationAtLvl
                 );
 
-            ReferencePlane newRefPlane = CreateNewRefPlane(doc, snapPoint.Z, newRefPlaneName);
+            ReferencePlane newRefPlane = CreateNewRefPlane(doc, RefPlaneElevation, newRefPlaneName);
 
 
 
