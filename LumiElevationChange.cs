@@ -70,7 +70,7 @@ namespace EpicLumi
 
             double newElevationAtLevel = uiData.ElevationAtLevel;
             bool UseAutoLevel = uiData.UseAutoLevel;
-            string UserSelectedLevelName = "";//uiData.UserSelectedLevel;
+            string UserSelectedLevelName = uiData.UserSelectedLevel;
 
             foreach (ElementId selectedElementId in selection)
             {
